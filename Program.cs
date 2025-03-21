@@ -9,11 +9,14 @@ class Program
             Console.Clear();
             Console.WriteLine("=== College Grading System ===");
             Console.WriteLine("1. Add Student Record");
-            Console.WriteLine("2. Edit Student Record");
-            Console.WriteLine("3. Delete Student Record");
-            Console.WriteLine("4. Compute Final Grades");
-            Console.WriteLine("5. View All Records");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("2. View Available Courses");
+            Console.WriteLine("3. Add Course");
+            Console.WriteLine("4. Assign Course to Student");
+            Console.WriteLine("5. Add Detailed Grades for a Student");
+            Console.WriteLine("6. View Grades for a Student");
+            Console.WriteLine("7. Exit");
+            Console.WriteLine("8. View All Students with Overall Grades");
+
 
             Console.Write("Enter your choice: ");
             int choice = int.Parse(Console.ReadLine() ?? "0");
@@ -24,18 +27,24 @@ class Program
                     AddStudent();
                     break;
                 case 2:
-                    EditStudent();
+                    ViewCourses();
                     break;
                 case 3:
-                    DeleteStudent();
+                    AddCourse();
                     break;
                 case 4:
-                    ComputeGrades();
+                    AssignCourseToStudent();
                     break;
                 case 5:
-                    ViewAllRecords();
+                    AddDetailedGradeForStudent();
                     break;
                 case 6:
+                    ViewStudentGrades();
+                    break;
+                case 7:
+                    ViewAllStudentsWithGrades();
+                    break;
+                case 8:
                     return;
                 default:
                     Console.WriteLine("Invalid choice. Press any key to continue...");
@@ -53,61 +62,86 @@ class Program
         Console.Write("Enter Student Name: ");
         string name = Console.ReadLine();
 
-        Console.Write("Enter Quiz Score: ");
-        double quiz = double.Parse(Console.ReadLine());
+        Console.Write("Enter Student Email (optional): ");
+        string email = Console.ReadLine();
 
-        Console.Write("Enter Assignment Score: ");
-        double assignment = double.Parse(Console.ReadLine());
+        DatabaseHelper.AddStudent(id, name, email);
 
-        Console.Write("Enter Exam Score: ");
-        double exam = double.Parse(Console.ReadLine());
-
-        DatabaseHelper.AddStudent(id, name, quiz, assignment, exam);
-
-        Console.WriteLine("Student record added successfully. Press any key to continue...");
+        Console.WriteLine("Student added successfully! Press any key to continue...");
         Console.ReadKey();
     }
 
-    static void EditStudent()
+    static void ViewCourses()
     {
-        Console.Write("Enter Student ID to Edit: ");
-        int id = int.Parse(Console.ReadLine());
-
-        Console.Write("Enter New Quiz Score: ");
-        double quiz = double.Parse(Console.ReadLine());
-
-        Console.Write("Enter New Assignment Score: ");
-        double assignment = double.Parse(Console.ReadLine());
-
-        Console.Write("Enter New Exam Score: ");
-        double exam = double.Parse(Console.ReadLine());
-
-        DatabaseHelper.EditStudent(id, quiz, assignment, exam);
-        Console.WriteLine("Student record updated successfully. Press any key to continue...");
-        Console.ReadKey();
-    }
-
-    static void DeleteStudent()
-    {
-        Console.Write("Enter Student ID to Delete: ");
-        int id = int.Parse(Console.ReadLine());
-
-        DatabaseHelper.DeleteStudent(id);
-        Console.WriteLine("Student record deleted successfully. Press any key to continue...");
-        Console.ReadKey();
-    }
-
-    static void ComputeGrades()
-    {
-        DatabaseHelper.ComputeGrades();
-        Console.WriteLine("Final grades computed successfully. Press any key to continue...");
-        Console.ReadKey();
-    }
-
-    static void ViewAllRecords()
-    {
-        DatabaseHelper.ViewAllRecords();
+        Console.Clear();
+        DatabaseHelper.ViewAvailableCourses();
         Console.WriteLine("Press any key to continue...");
         Console.ReadKey();
     }
+
+    static void AddCourse()
+    {
+        Console.Write("Enter Course Name: ");
+        string courseName = Console.ReadLine();
+
+        Console.Write("Enter Course Code: ");
+        string courseCode = Console.ReadLine();
+
+        DatabaseHelper.AddCourse(courseName, courseCode);
+        Console.WriteLine("Course added successfully. Press any key to continue...");
+        Console.ReadKey();
+    }
+
+    static void AssignCourseToStudent()
+    {
+        Console.Write("Enter Student ID: ");
+        int studentId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Course ID: ");
+        int courseId = int.Parse(Console.ReadLine());
+
+        DatabaseHelper.AddStudentToCourse(studentId, courseId);
+        Console.WriteLine("Course assigned to student successfully. Press any key to continue...");
+        Console.ReadKey();
+    }
+
+    static void AddDetailedGradeForStudent()
+    {
+        Console.Write("Enter Student ID: ");
+        int studentId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Course ID: ");
+        int courseId = int.Parse(Console.ReadLine());
+
+        Console.Write("Enter Quiz Score: ");
+        double quizScore = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter Activity Score: ");
+        double activityScore = double.Parse(Console.ReadLine());
+
+        Console.Write("Enter Exam Score: ");
+        double examScore = double.Parse(Console.ReadLine());
+
+        DatabaseHelper.AddDetailedGrade(studentId, courseId, quizScore, activityScore, examScore);
+
+        Console.WriteLine("Detailed grades added successfully. Press any key to continue...");
+        Console.ReadKey();
+    }
+
+    static void ViewStudentGrades()
+    {
+        Console.Write("Enter Student ID: ");
+        int studentId = int.Parse(Console.ReadLine());
+
+        DatabaseHelper.ViewStudentGrades(studentId);
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+    }
+    static void ViewAllStudentsWithGrades()
+    {
+        DatabaseHelper.ViewAllStudentsWithGrades();
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+    }
+
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2025 at 01:13 PM
+-- Generation Time: Mar 21, 2025 at 10:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,15 @@ CREATE TABLE `course` (
   `Course_Code` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`Course_ID`, `Course_Name`, `Course_Code`) VALUES
+(1, 'Design and Implementation of Different Programing Languages', '6DIPROGLAN'),
+(2, 'System Analysis and Design', 'SSAD'),
+(3, 'Information Management', 'IMAN');
+
 -- --------------------------------------------------------
 
 --
@@ -44,8 +53,19 @@ CREATE TABLE `grade` (
   `Student_ID` int(11) NOT NULL,
   `Course_ID` int(11) NOT NULL,
   `Grade_Score` float DEFAULT 0,
-  `Grade_Value` varchar(10) DEFAULT NULL
+  `Grade_Value` varchar(30) DEFAULT NULL,
+  `Quiz_Score` float DEFAULT 0,
+  `Activity_Score` float DEFAULT 0,
+  `Exam_Score` float DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grade`
+--
+
+INSERT INTO `grade` (`Grade_ID`, `Student_ID`, `Course_ID`, `Grade_Score`, `Grade_Value`, `Quiz_Score`, `Activity_Score`, `Exam_Score`) VALUES
+(7, 1, 2, 76.6, '2.0 (Good)', 60, 70, 94),
+(8, 1, 1, 72.7, '2.25 (Satisfactory)', 79, 86, 58);
 
 -- --------------------------------------------------------
 
@@ -56,19 +76,17 @@ CREATE TABLE `grade` (
 CREATE TABLE `student` (
   `Student_ID` int(11) NOT NULL,
   `Student_Name` varchar(100) NOT NULL,
-  `Student_Email` varchar(100) DEFAULT NULL,
-  `Quiz_Score` float DEFAULT 0,
-  `Assignment_Score` float DEFAULT 0,
-  `Exam_Score` float DEFAULT 0
+  `Student_Email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`Student_ID`, `Student_Name`, `Student_Email`, `Quiz_Score`, `Assignment_Score`, `Exam_Score`) VALUES
-(11, 'john', NULL, 48, 80, 63),
-(12, 'Nathy', NULL, 30, 20, 33);
+INSERT INTO `student` (`Student_ID`, `Student_Name`, `Student_Email`) VALUES
+(1, 'John Doe', 'johndoe@example.com'),
+(2, 'Jane Smith', 'janesmith@example.com'),
+(3, 'Mike', 'MJ@dummymail.com');
 
 --
 -- Indexes for dumped tables
@@ -99,10 +117,22 @@ ALTER TABLE `student`
 --
 
 --
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `Course_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `grade`
 --
 ALTER TABLE `grade`
-  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Grade_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `Student_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
